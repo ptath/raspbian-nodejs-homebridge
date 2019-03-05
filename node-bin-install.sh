@@ -1,4 +1,7 @@
+#!/bin/bash
 # Version 0.1
+script_branch="beta" # or master
+# By ptath (https://ptath.ru)
 
 #
 
