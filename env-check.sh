@@ -17,7 +17,7 @@ echo_bold "=========================="
 
 echo "====== Checking apt packages list..."
 
-wget -q -N -O /tmp/apt.list https://github.com/ptath/raspbian-nodejs-homebridge/raw/"$script_branch"/lists/apt.list
+wget -N -O /tmp/apt.list https://github.com/ptath/raspbian-nodejs-homebridge/raw/"$script_branch"/lists/apt.list
 [ -e /tmp/apt.list ] && echo "====== Will install these apt packages: " && cat /tmp/apt.list
 [ ! -e /tmp/apt.list ] && echo_bold "====== ERROR downloading or parsing packages list to /tmp/apt.list" && exit
 
