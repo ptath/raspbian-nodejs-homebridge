@@ -69,6 +69,7 @@ case $PI_ARM_VERSION in
 
     echo_bold "=========================="
     echo_bold "======================= Installation of Node.js is complete"
+    echo_bold "======================= Run this script again anytime to upgrade"
     echo_bold "=========================="
     echo "=== Executing 'node -v', keep in mind that latest available is $VERSION"
     node -v
