@@ -117,9 +117,9 @@ print_title "CONFIGURING HOMEBRIDGE" "Creating sample config file and so on"
 
 [ -e ~/.homebridge/config.json ] &&
   mkdir ~/.homebridge/conf-backups/ &&
-  cp ~/.homebridge/config.json ~/.homebridge/config.json.$(date -d "today" +"%Y%m%d%H%M")
-  echo " Config file backup created in $(print_cyan ~/.homebridge/conf-backups/")"
+  cp ~/.homebridge/config.json ~/.homebridge/config.json.$(date -d "today" +"%Y%m%d%H%M") &&
+  echo " Config file backup created in $(print_cyan "~/.homebridge/conf-backups/")"
 
-wget -q -N -O ~/.homebridge/config.json https://github.com/ptath/raspbian-nodejs-homebridge/raw/"$script_branch"/lists/config.json.default
+wget -q -N -O ~/.homebridge/config.json https://github.com/ptath/raspbian-nodejs-homebridge/raw/"$script_branch"/homebridge-configs/config.json.default
 [ -e ~/.homebridge/config.json ] && echo " Default config file copied to Homebridge dir"
 [ ! -e ~/.homebridge/config.json ] && echo "  $(print_red "ERROR downloading or copying default config file")" && exit
