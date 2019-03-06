@@ -60,9 +60,12 @@ wget -q -N -O /tmp/env-check.sh https://github.com/ptath/raspbian-nodejs-homebri
   /tmp/env-check.sh
 [ ! -e /tmp/env-check.sh ] && echo " $(print_red "ERROR downloading or running /tmp/env-check.sh")" && exit
 
-# installing
-echo " Installing $(print_cyan "npm-check-updates") aka ncu package (https://www.npmjs.com/package/npm-check-updates)"
-npm install -g npm-check-updates
+# installing npm packages
+wget -q -N -O /tmp/node-npm-install.sh https://github.com/ptath/raspbian-nodejs-homebridge/raw/"$script_branch"/node-npm-install.sh
+[ -e /tmp/node-npm-install.sh ] &&
+  chmod +x /tmp/node-npm-install.sh &&
+  /tmp/node-npm-install.sh
+[ ! -e /tmp/node-npm-install.sh ] && echo " $(print_red "ERROR downloading or running /tmp/node-npm-install.sh")" && exit
 
 
 

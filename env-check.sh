@@ -62,8 +62,19 @@ wget -q -N -O /tmp/apt.list https://github.com/ptath/raspbian-nodejs-homebridge/
 IFS=$'\n' GLOBIGNORE='*' command eval 'SSM=($(cat /tmp/apt.list))'
 apts=${SSM[*]}
 
-echo " $(print_cyan "Updating apt packages...")"
-sudo apt update
+echo " Updating $(print_cyan "apt") packages..."
+
+read -t 15 -n 1 -p " Update now? $(print_green "Y")/n): " choice
+[ -z "$choice" ] && choice="y"
+case $version_choice in
+        y|Y )
+          echo " $(print_green "Yes")"
+          sudo apt update
+        ;;
+        n|N|* )
+          echo " $(print_red "No")"
+        ;;
+esac
 
 read -t 15 -n 1 -p " Upgrade now? $(print_green "N")/y): " choice
 [ -z "$choice" ] && choice="n"
