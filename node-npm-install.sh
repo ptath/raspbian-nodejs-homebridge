@@ -68,52 +68,52 @@ npms=${SSM[*]}
   rm /tmp/npm_installed_list &&
   echo $(npm list -g --depth 0) > /tmp/npm_installed_list
 
-  for item in ${npms[*]}
-  do
-    package_name=$item
-    if [ $(cat /tmp/npm_installed_list | grep -c "$package_name@") -eq 0 ];then
-      echo " Installing $(print_cyan "$package_name")..."
+for item in ${npms[*]}
+do
+  package_name=$item
+  if [ $(cat /tmp/npm_installed_list | grep -c "$package_name@") -eq 0 ];then
+    echo " Installing $(print_cyan "$package_name")..."
 
-      # Removing symlinks
-      sudo unlink /usr/bin/"$package_name";
-      sudo unlink /usr/sbin/"$package_name";
-      sudo unlink /sbin/"$package_name";
+    # Removing symlinks
+    sudo unlink /usr/bin/"$package_name";
+    sudo unlink /usr/sbin/"$package_name";
+    sudo unlink /sbin/"$package_name";
       sudo unlink /usr/local/bin/"$package_name";
 
-      npm install -g "$package_name"
+    npm install -g "$package_name"
 
-      # Adding symlinks
-      sudo ln -s /opt/nodejs/bin/"$package_name" /usr/bin/"$package_name";
-      sudo ln -s /opt/nodejs/bin/"$package_name" /usr/sbin/"$package_name";
-      sudo ln -s /opt/nodejs/bin/"$package_name" /sbin/"$package_name";
-      sudo ln -s /opt/nodejs/bin/"$package_name" /usr/local/bin/"$package_name";
+    # Adding symlinks
+    sudo ln -s /opt/nodejs/bin/"$package_name" /usr/bin/"$package_name";
+    sudo ln -s /opt/nodejs/bin/"$package_name" /usr/sbin/"$package_name";
+    sudo ln -s /opt/nodejs/bin/"$package_name" /sbin/"$package_name";
+    sudo ln -s /opt/nodejs/bin/"$package_name" /usr/local/bin/"$package_name";
 
-    else
-      read -t 10 -n 1 -p " $(print_cyan "$package_name") already installed, $(print_red "reinstall")? (N/y): " reinstall_choice
-      [ -z "$reinstall_choice" ] && reinstall_choice="n"
-      case $version_choice in
-              y|Y )
-                echo " Reinstalling...";
-                npm remove -g "$package_name";
-                # Removing symlinks
-                sudo unlink /usr/bin/"$package_name";
-                sudo unlink /usr/sbin/"$package_name";
-                sudo unlink /sbin/"$package_name";
-                sudo unlink /usr/local/bin/"$package_name";
+  else
+    read -t 10 -n 1 -p " $(print_cyan "$package_name") already installed, $(print_red "reinstall")? (N/y): " reinstall_choice
+    [ -z "$reinstall_choice" ] && reinstall_choice="n"
+    case $version_choice in
+            y|Y )
+              echo " Reinstalling...";
+              npm remove -g "$package_name";
+              # Removing symlinks
+              sudo unlink /usr/bin/"$package_name";
+              sudo unlink /usr/sbin/"$package_name";
+              sudo unlink /sbin/"$package_name";
+              sudo unlink /usr/local/bin/"$package_name";
 
-                npm install -g "$package_name";
-                # Adding symlinks
-                sudo ln -s /opt/nodejs/bin/"$package_name" /usr/bin/"$package_name";
-                sudo ln -s /opt/nodejs/bin/"$package_name" /usr/sbin/"$package_name";
-                sudo ln -s /opt/nodejs/bin/"$package_name" /sbin/"$package_name";
-                sudo ln -s /opt/nodejs/bin/"$package_name" /usr/local/bin/"$package_name"
-              ;;
-              n|N|* )
-                echo " Leaving"
-              ;;
-      esac
-    fi
-  done
+              npm install -g "$package_name";
+              # Adding symlinks
+              sudo ln -s /opt/nodejs/bin/"$package_name" /usr/bin/"$package_name";
+              sudo ln -s /opt/nodejs/bin/"$package_name" /usr/sbin/"$package_name";
+              sudo ln -s /opt/nodejs/bin/"$package_name" /sbin/"$package_name";
+              sudo ln -s /opt/nodejs/bin/"$package_name" /usr/local/bin/"$package_name"
+            ;;
+            n|N|* )
+              echo " Leaving"
+            ;;
+    esac
+fi
+done
 
 print_title "Configuring Homebridge" "Creating sample config file, setting startup and so on"
 
