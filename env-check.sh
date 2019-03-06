@@ -51,7 +51,7 @@ print_title() {
 
 # Script starts here
 
-print_title "CHECKING ENVIROMENT" "Now will install necessary packages and check you architecture"
+print_title "CHECKING ENVIROMENT" "Now will install necessary packages and check device architecture"
 
 echo " Checking apt packages to install..."
 
@@ -77,7 +77,7 @@ case $version_choice in
         ;;
 esac
 
-echo " $(print_cyan "Installing necessary apt packages...")"
+echo "  Installing necessary $(print_cyan "apt packages")..."
 for item in ${apts[*]}
 do
   package_name=$item

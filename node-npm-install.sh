@@ -71,13 +71,14 @@ npms=${SSM[*]}
     package_name=$item
     if [ $(cat /tmp/npm_installed_list | grep -c "$package_name@") -eq 0 ];then
       echo " Installing $(print_cyan "$package_name")..."
-      npm install -g "$package_name"
 
       # Removing symlinks
       sudo unlink /usr/bin/"$package_name";
       sudo unlink /usr/sbin/"$package_name";
       sudo unlink /sbin/"$package_name";
       sudo unlink /usr/local/bin/"$package_name";
+
+      npm install -g "$package_name"
 
       # Adding symlinks
       sudo ln -s /opt/nodejs/bin/"$package_name" /usr/bin/"$package_name";
@@ -90,9 +91,20 @@ npms=${SSM[*]}
       [ -z "$reinstall_choice" ] && reinstall_choice="n"
       case $version_choice in
               y|Y )
-                echo " Reinstalling..." &&
-                npm remove -g "$package_name" &&
-                npm install -g "$package_name"
+                echo " Reinstalling...";
+                npm remove -g "$package_name";
+                # Removing symlinks
+                sudo unlink /usr/bin/"$package_name";
+                sudo unlink /usr/sbin/"$package_name";
+                sudo unlink /sbin/"$package_name";
+                sudo unlink /usr/local/bin/"$package_name";
+
+                npm install -g "$package_name";
+                # Adding symlinks
+                sudo ln -s /opt/nodejs/bin/"$package_name" /usr/bin/"$package_name";
+                sudo ln -s /opt/nodejs/bin/"$package_name" /usr/sbin/"$package_name";
+                sudo ln -s /opt/nodejs/bin/"$package_name" /sbin/"$package_name";
+                sudo ln -s /opt/nodejs/bin/"$package_name" /usr/local/bin/"$package_name"
               ;;
               n|N|* )
                 echo " Leaving"
