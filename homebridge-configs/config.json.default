@@ -1,0 +1,28 @@
+{
+    "bridge": {
+        "name": "PTATH-HUB",
+        "username": "AB:12:34:43:1D:D1",
+        "port": 51826,
+        "pin": "176-11-222"
+    },
+    "description": "Default Homebridge configuration by ptath",
+    "platforms": [
+        {
+            "name": "Config",
+            "port": 80,
+            "auth": "none",
+            "theme": "green",
+            "restart": "pm2 restart homebridge",
+            "temp": "/sys/class/thermal/thermal_zone0/temp",
+            "tempUnits": "c",
+            "sudo": false,
+            "log": {
+                "method": "custom",
+                "command": "pm2 logs homebridge --raw --out --lines 200"
+            },
+            "platform": "config"
+        }
+    ],
+    "accessories": [
+    ]
+}

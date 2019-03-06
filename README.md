@@ -29,7 +29,7 @@ and write them to the `/boot` FAT32 partition of flashed Raspbian SD-card to avo
 One-line command is:
 
 ```
-TBA
+wget -q -N -O /tmp/install.sh https://github.com/ptath/raspbian-nodejs-homebridge/raw/beta/install.sh && chmod +x /tmp/install.sh && /tmp/install.sh
 ```
 
 ## Based on scripts:
