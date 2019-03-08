@@ -104,18 +104,13 @@ wget -q -N -O ~/.homebridge/config.json https://github.com/ptath/raspbian-nodejs
 [ -e ~/.homebridge/config.json ] && echo " Default config file created and copied to Homebridge dir"
 [ ! -e ~/.homebridge/config.json ] && echo "  $(print_red "ERROR downloading or copying default config file")" && exit
 
-echo " Setting up $print_cyan("pm2")"
-echo "  Configuring authbind to let homebridge-config-ui-x use port 80"
-
-sudo touch /etc/authbind/byport/80
-sudo chown "$USER" /etc/authbind/byport/80
-sudo chmod 755 /etc/authbind/byport/80
+echo " Setting up $print_cyan("pm2") to start Homebridge after reboot or crash"
 
 [ -e /tmp/pm2.systemd.script ] && rm /tmp/pm2.systemd.script
 pm2 startup systemd > /tmp/pm2.systemd.script
 
 if [ $(cat /tmp/pm2.systemd.script 2>/dev/null | grep -c "sudo env") -eq 1 ];then
-  echo " Installing pm2 to systemd..."
+  echo "  Installing pm2 to systemd..."
   eval $(cat /tmp/pm2.systemd.script | grep "sudo env")
   rm /tmp/pm2.systemd.script
 else
@@ -123,9 +118,9 @@ else
   cat /tmp/pm2.systemd.script && exit
 fi
 
-echo " Daemonizing $print_cyan("homebridge") via pm2"
+echo "  Daemonizing $print_cyan("homebridge") via pm2..."
 pm2 start homebridge
-echo " Saving pm2 configuration"
+echo "  Saving pm2 configuration..."
 pm2 save
 
 print_title "Homebridge installation complete" "Should reboot now, this is mandatory. Nothing will work till reboot"
