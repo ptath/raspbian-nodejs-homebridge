@@ -9,7 +9,7 @@
     "platforms": [
         {
             "name": "Config",
-            "port": 80,
+            "port": 8080,
             "auth": "none",
             "theme": "green",
             "restart": "pm2 restart homebridge",
@@ -18,19 +18,9 @@
             "sudo": false,
             "log": {
                 "method": "custom",
-                "command": "pm2 logs homebridge --raw --out --lines 200"
+                "command": "pm2 logs homebridge --raw --out --lines 400"
             },
             "platform": "config"
-        },
-        {
-            "name": "ZigBee",
-            "panId": 65535,
-            "channel": 11,
-            "permitJoinTimeout": 120,
-            "routerPollingInterval": 60,
-            "disableLed": false,
-            "disablePingLog": true,
-            "platform": "ZigBeePlatform"
         }
     ],
     "accessories": [
