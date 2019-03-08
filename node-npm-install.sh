@@ -64,10 +64,12 @@ wget -q -N -O /tmp/npm.list https://github.com/ptath/raspbian-nodejs-homebridge/
 IFS=$'\n' GLOBIGNORE='*' command eval 'SSM=($(cat /tmp/npm.list))'
 npms=${SSM[*]}
 
+# Get installed npm packages
 [ -e /tmp/npm_installed_list ] &&
-  rm /tmp/npm_installed_list &&
-  echo $(npm list -g --depth 0) > /tmp/npm_installed_list
+  rm /tmp/npm_installed_list
+echo $(npm list -g --depth 0) > /tmp/npm_installed_list
 
+# Install packages, excluding already installed
 for item in ${npms[*]}
 do
   package_name=$item
@@ -75,7 +77,7 @@ do
     echo " Installing $(print_cyan "$package_name")..."
     npm install -g "$package_name"
   else
-    read -t 10 -n 1 -p " $(print_green "$package_name") already installed, $(print_red "reinstall")? (N/y): " reinstall_choice
+    read -t 15 -n 1 -p " $(print_green "$package_name") already installed, $(print_red "reinstall")? (N/y): " reinstall_choice
     [ -z "$reinstall_choice" ] && reinstall_choice="n"
     case $version_choice in
             y|Y )
@@ -90,6 +92,7 @@ do
 fi
 done
 
+# Homebridge configuration
 print_title "Configuring Homebridge" "Creating sample config file, setting startup and so on"
 
 [ -e ~/.homebridge/config.json ] &&
@@ -102,6 +105,12 @@ wget -q -N -O ~/.homebridge/config.json https://github.com/ptath/raspbian-nodejs
 [ ! -e ~/.homebridge/config.json ] && echo "  $(print_red "ERROR downloading or copying default config file")" && exit
 
 echo " Setting up $print_cyan("pm2")"
+echo "  Configuring authbind to let homebridge-config-ui-x use port 80"
+
+sudo touch /etc/authbind/byport/80
+sudo chown "$USER" /etc/authbind/byport/80
+sudo chmod 755 /etc/authbind/byport/80
+
 [ -e /tmp/pm2.systemd.script ] && rm /tmp/pm2.systemd.script
 pm2 startup systemd > /tmp/pm2.systemd.script
 
@@ -114,7 +123,7 @@ else
   cat /tmp/pm2.systemd.script && exit
 fi
 
-echo " Demonizing $print_cyan("homebridge") via pm2"
+echo " Daemonizing $print_cyan("homebridge") via pm2"
 pm2 start homebridge
 echo " Saving pm2 configuration"
 pm2 save
