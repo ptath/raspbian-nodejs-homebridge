@@ -64,7 +64,7 @@ apts=${SSM[*]}
 
 echo " Updating $(print_cyan "apt") packages..."
 
-read -t 15 -n 1 -p " Update now? $(print_green "Y")/n): " choice
+read -t 15 -n 1 -p " Update now? Y/n): " choice
 [ -z "$choice" ] && choice="y"
 case $version_choice in
         y|Y )
@@ -76,8 +76,8 @@ case $version_choice in
         ;;
 esac
 
-read -t 15 -n 1 -p " Upgrade now? $(print_green "N")/y): " choice
-[ -z "$choice" ] && choice="n"
+read -t 15 -n 1 -p " Upgrade now? Y/n): " choice
+[ -z "$choice" ] && choice="y"
 case $version_choice in
         y|Y )
           echo " $(print_red "Yes")"
@@ -93,15 +93,30 @@ for item in ${apts[*]}
 do
   package_name=$item
   if [ $(dpkg-query -W -f='${Status}' "$package_name" 2>/dev/null | grep -c "ok installed") -eq 0 ];then
-        echo " Installing "$package_name"..."
+        echo " Installing: $(print_cyan "$package_name")..."
         sudo apt install "$package_name" -y
   else
-        echo " Already installed: "$package_name
+        echo " Already installed: $(print_green "$package_name")"
   fi
 done
 
-# Checking architecture
+# check if Node.JS already installed
+if [ $(which node 2>/dev/null | grep -c "/node") -eq 0 ];then
+  echo " Node.JS is $(print_cyan "not installed...")"
+else
+  echo " Node.JS $(print_green "already installed") in $(which node)"
+  node_ver=$(
+    node -v |
+    egrep 'v[0-10]'
+  );
+  read -t 15 -n 1 -p " Install it again (all current Node.JS settings and packages $(print_red "will be lost"))? (N/y): " choice
+  case $choice in
+    Y|y) echo " Proceeding...";;
+    N|n|*) exit;;
+  esac
+fi
 
+# Checking architecture
 PI_ARM_VERSION=$(
   uname -a |
   egrep 'armv[0-9]+l' -o

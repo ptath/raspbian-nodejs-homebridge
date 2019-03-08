@@ -53,7 +53,7 @@ print_title() {
 
 # Script starts here
 
-# Checking enviroment
+# Checking enviroment and installing Node.JS
 wget -q -N -O /tmp/env-check.sh https://github.com/ptath/raspbian-nodejs-homebridge/raw/"$script_branch"/env-check.sh
 [ -e /tmp/env-check.sh ] &&
   chmod +x /tmp/env-check.sh &&
