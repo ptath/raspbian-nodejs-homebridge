@@ -21,17 +21,17 @@ fi
 
 print_red() {
         text="$1"
-        printf "${bold}${standout}${red}${text}${normal}"
+        printf "${bold}${red}${text}${normal}"
 }
 
 print_green() {
         text="$1"
-        printf "${bold}${standout}${green}${text}${normal}"
+        printf "${bold}${green}${text}${normal}"
 }
 
 print_cyan() {
         text="$1"
-        printf "${bold}${standout}${cyan}${text}${normal}"
+        printf "${bold}${cyan}${text}${normal}"
 }
 
 print_title() {
@@ -58,7 +58,6 @@ echo " Checking npm packages to install..."
 [ -e /tmp/npm.list ] && rm /tmp/npm.list
 
 wget -q -N -O /tmp/npm.list https://github.com/ptath/raspbian-nodejs-homebridge/raw/"$script_branch"/lists/npm.list
-[ -e /tmp/npm.list ] && echo "  Will check these apt packages: " && cat /tmp/npm.list
 [ ! -e /tmp/npm.list ] && echo "  $(print_red "ERROR downloading or parsing packages list /tmp/npm.list")" && exit
 
 IFS=$'\n' GLOBIGNORE='*' command eval 'SSM=($(cat /tmp/npm.list))'
@@ -74,10 +73,10 @@ for item in ${npms[*]}
 do
   package_name=$item
   if [ $(cat /tmp/npm_installed_list | grep -c "$package_name@") -eq 0 ];then
-    echo " Installing $(print_cyan "$package_name")..."
+    echo "  Installing $(print_cyan "$package_name")..."
     npm install -g "$package_name"
   else
-    read -t 15 -n 1 -p " $(print_green "$package_name") already installed, $(print_red "reinstall")? (N/y): " reinstall_choice
+    read -t 15 -n 1 -p "  $(print_green "$package_name") already installed, $(print_red "reinstall")? (N/y): " reinstall_choice
     [ -z "$reinstall_choice" ] && reinstall_choice="n"
     case $version_choice in
             y|Y )
@@ -86,7 +85,7 @@ do
               npm install -g "$package_name";
             ;;
             n|N|* )
-              echo " Leaving"
+              echo " No"
             ;;
     esac
 fi

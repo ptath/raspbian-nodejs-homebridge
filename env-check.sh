@@ -21,17 +21,17 @@ fi
 
 print_red() {
         text="$1"
-        printf "${bold}${standout}${red}${text}${normal}"
+        printf "${bold}${red}${text}${normal}"
 }
 
 print_green() {
         text="$1"
-        printf "${bold}${standout}${green}${text}${normal}"
+        printf "${bold}${green}${text}${normal}"
 }
 
 print_cyan() {
         text="$1"
-        printf "${bold}${standout}${cyan}${text}${normal}"
+        printf "${bold}${cyan}${text}${normal}"
 }
 
 print_title() {
@@ -56,7 +56,6 @@ print_title "CHECKING ENVIROMENT" "Now will install necessary packages and check
 echo " Checking apt packages to install..."
 
 wget -q -N -O /tmp/apt.list https://github.com/ptath/raspbian-nodejs-homebridge/raw/"$script_branch"/lists/apt.list
-[ -e /tmp/apt.list ] && echo "  Will check these apt packages: " && cat /tmp/apt.list
 [ ! -e /tmp/apt.list ] && echo "  $(print_red "ERROR downloading or parsing packages list to /tmp/apt.list")" && exit
 
 IFS=$'\n' GLOBIGNORE='*' command eval 'SSM=($(cat /tmp/apt.list))'
@@ -93,10 +92,10 @@ for item in ${apts[*]}
 do
   package_name=$item
   if [ $(dpkg-query -W -f='${Status}' "$package_name" 2>/dev/null | grep -c "ok installed") -eq 0 ];then
-        echo " Installing: $(print_cyan "$package_name")..."
+        echo "  Installing: $(print_cyan "$package_name")..."
         sudo apt install "$package_name" -y
   else
-        echo " Already installed: $(print_green "$package_name")"
+        echo "  Already installed: $(print_green "$package_name")"
   fi
 done
 
