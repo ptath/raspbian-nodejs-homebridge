@@ -66,7 +66,7 @@ echo " Updating $(print_cyan "apt") packages..."
 
 read -t 15 -n 1 -p " Update now? Y/n): " choice
 [ -z "$choice" ] && choice="y"
-case $version_choice in
+case $choice in
         y|Y )
           echo " $(print_green "Yes")"
           sudo apt update
@@ -80,15 +80,15 @@ read -t 15 -n 1 -p " Upgrade now? Y/n): " choice
 [ -z "$choice" ] && choice="y"
 case $version_choice in
         y|Y )
-          echo " $(print_red "Yes")"
+          echo " $(print_green "Yes")"
           sudo apt upgrade -y
         ;;
         n|N|* )
-          echo " $(print_green "No")"
+          echo " $(print_red "No")"
         ;;
 esac
 
-echo "  Installing necessary $(print_cyan "apt packages")..."
+echo " Installing necessary $(print_cyan "apt packages")..."
 for item in ${apts[*]}
 do
   package_name=$item

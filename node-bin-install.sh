@@ -106,11 +106,8 @@ case $PI_ARM_VERSION in
       echo " $(print_cyan "PATH") /opt/nodejs/bin $(print_green "already set") in ~/.profile, skipping"
     fi
 
-    print_title "Installation of Node.js is complete" "Run this script again anytime to upgrade"
-    echo " Executing 'node -v', keep in mind that latest available is $VERSION"
-    node -v
-    echo " Executing 'npm -v'"
-    npm -v
+    print_title "INSTALLATION OF NODEJS IS COMPLETE" "You should upgrade it manually in future"
+    echo " Now we have $(print_cyan "Node.JS $(node -v)") and $(print_cyan "npm v$(npm -v)") installed"
   ;;
 
   armv7l )

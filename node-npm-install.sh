@@ -93,16 +93,21 @@ fi
 done
 
 # Homebridge configuration
-print_title "Configuring Homebridge" "Creating sample config file, setting startup and so on"
+print_title "CONFIGURING HOMEBRIDGE" "Creating sample config file, setting startup and so on"
+
+[ ! -d ~/.homebridge ] && mkdir ~/.homebridge
 
 [ -e ~/.homebridge/config.json ] &&
+  [ ! -d ~/.homebridge/conf-backups ] && mkdir ~/.homebridge/conf-backups
   mkdir ~/.homebridge/conf-backups/ &&
-  cp ~/.homebridge/config.json ~/.homebridge/config.json.$(date -d "today" +"%Y%m%d%H%M") &&
+  cp ~/.homebridge/config.json ~/.homebridge/conf-backups/config.json.$(date -d "today" +"%Y%m%d%H%M") &&
   echo " Config file backup created in $(print_cyan "~/.homebridge/conf-backups/")"
 
 wget -q -N -O ~/.homebridge/config.json https://github.com/ptath/raspbian-nodejs-homebridge/raw/"$script_branch"/homebridge-configs/config.json.default
-[ -e ~/.homebridge/config.json ] && echo " Default config file created and copied to Homebridge dir"
-[ ! -e ~/.homebridge/config.json ] && echo "  $(print_red "ERROR downloading or copying default config file")" && exit
+[ -e ~/.homebridge/config.json ] &&
+  echo " Default config file downloaded and copied to Homebridge dir"
+[ ! -e ~/.homebridge/config.json ] &&
+  echo "  $(print_red "ERROR downloading or copying default config file")" && exit
 
 echo " Setting up $print_cyan("pm2") to start Homebridge after reboot or crash"
 
@@ -122,10 +127,11 @@ echo "  Daemonizing $print_cyan("homebridge") via pm2..."
 pm2 start homebridge
 echo "  Saving pm2 configuration..."
 pm2 save
+echo "  Read this http://pm2.keymetrics.io/docs/usage/specifics/#listening-on-port-80-w-o-root"
 
-print_title "Homebridge installation complete" "Should reboot now, this is mandatory. Nothing will work till reboot"
+print_title "HOMEBRIDGE INSTALLATION COMPLETE" "Should reboot now"
 
-read -t 10 -n 1 -p " Stop rebooting? (N/y): " choice
+read -t 15 -n 1 -p " Stop rebooting? (N/y): " choice
 [ -z "$choice" ] && choice="n"
 case $version_choice in
         n|N|* )

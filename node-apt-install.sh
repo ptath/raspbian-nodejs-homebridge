@@ -92,25 +92,17 @@ case $PI_ARM_VERSION in
       curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
       sudo apt install -y nodejs
       echo " $(print_green "Node.js installed") from apt, checking version..."
-      echo "  Executing 'node -v', keep in mind that latest available is $VERSION"
-      node -v
-      echo "  Executing 'npm -v'"
-      npm -v
+      echo " Now we have $(print_cyan "Node.JS $(node -v)") and $(print_cyan "npm v$(npm -v)") installed"
     else
       if [ -f "/etc/apt/sources.list.d/nodesource.list" ]; then
         echo " Node.js $(print_green "already installed from apt"), checking version..."
-        echo "  Executing 'node -v', keep in mind that latest available is $VERSION"
-        node -v
-        echo "  Executing 'npm -v'"
-        npm -v
+        echo "  We already have $(print_cyan "Node.JS $(node -v)") and $(print_cyan "npm v$(npm -v)") installed"
         echo " Node.js nodesource repo $(print_green "already installed"), updating and upgrading..."
         sudo apt update && sudo apt upgrade nodejs -y
       else
-        echo " Node.js already installed from $(print_cyan "UNKNOWN") apt"
-        echo "  Executing 'node -v', keep in mind that latest available is $VERSION"
-        node -v
-        echo "  Executing 'npm -v'"
-        npm -v
+        echo " Node.js already installed from $(print_cyan "UNKNOWN") apt source"
+        echo "  We already have $(print_cyan "Node.JS $(node -v)") and $(print_cyan "npm v$(npm -v)") installed"
+
         read -t 15 -n 1 -p " $(print_green "Add") nodesource repo and $(print_green "reinstall") from it? (Y/n): " choice
         [ -z "$choice" ] && choice="y"
         case $version_choice in
@@ -119,12 +111,7 @@ case $PI_ARM_VERSION in
                   echo " Installing $(print_cyan "Node.js LTS (10.x)") from deb.nodesource.com"
                   curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
                   sudo apt install -y nodejs
-                  echo " $(print_green "Node.js installed") from apt, checking version..."
-                  echo "  Executing 'node -v', keep in mind that latest available is $VERSION"
-                  node -v
-                  echo "  Executing 'npm -v'"
-                  npm -v
-                ;;
+                  echo " Now we have $(print_cyan "Node.JS $(node -v)") and $(print_cyan "npm v$(npm -v)") installed"                ;;
                 n|N|* )
                   echo " $(print_red "No")" && exit
                 ;;
