@@ -66,5 +66,3 @@ wget -q -N -O /tmp/node-npm-install.sh https://github.com/ptath/raspbian-nodejs-
   chmod +x /tmp/node-npm-install.sh &&
   /tmp/node-npm-install.sh
 [ ! -e /tmp/node-npm-install.sh ] && echo " $(print_red "ERROR downloading or running /tmp/node-npm-install.sh")" && exit
-
-echo "========= TBD =========="
