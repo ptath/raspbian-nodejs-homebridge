@@ -23,17 +23,17 @@ fi
 
 print_red() {
         text="$1"
-        printf "${bold}${standout}${red}${text}${normal}"
+        printf "${bold}${red}${text}${normal}"
 }
 
 print_green() {
         text="$1"
-        printf "${bold}${standout}${green}${text}${normal}"
+        printf "${bold}${green}${text}${normal}"
 }
 
 print_cyan() {
         text="$1"
-        printf "${bold}${standout}${cyan}${text}${normal}"
+        printf "${bold}${cyan}${text}${normal}"
 }
 
 print_title() {
