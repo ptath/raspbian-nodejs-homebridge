@@ -105,7 +105,7 @@ case $PI_ARM_VERSION in
 
         read -t 15 -n 1 -p " $(print_green "Add") nodesource repo and $(print_green "reinstall") from it? (Y/n): " choice
         [ -z "$choice" ] && choice="y"
-        case $version_choice in
+        case $choice in
                 y|Y )
                   echo " $(print_green "Yes")"
                   echo " Installing $(print_cyan "Node.js LTS (10.x)") from deb.nodesource.com"
